@@ -163,7 +163,74 @@ def upload_file():
     return "url should be getted"
 
 ##################################################################
+################################ handle the psnstatistic##################################################
+# endpoint to create new psnstatistic
+@app.route("/psnstatistik", methods=["POST"])
+def add_psnstatistik():       
+    firstname = request.json['firstname']
+    secondname = request.json['secondname']	
+	payedForme  = request.json['payedForme']
+	payedForyassine  = request.json['payedForyassine']
+	bill = request.json['bill']
+	codePrice  = request.json['codePrice']
 
+    new_psnstatistik = Todo(firstname, secondname, payedForme, payedForyassine, bill, codePrice)
+
+    db.session.add(new_psnstatistik)
+    db.session.commit()
+    #upload_file()
+    return jsonify(new_psnstatistik)
+
+
+# endpoint to show all psnstatistics
+
+@app.route("/psnstatistik", methods=["GET"])
+def get_psnstatistik():
+    all_psnstatistiks = psnstatistik.query.all()
+    result = psnstatistiks_schema.dump(all_psnstatistiks)
+    return jsonify(result.data)
+
+def abdellah(str):
+    return str
+# endpoint to get psnstatistic detail by id
+
+@app.route("/psnstatistic/<id>", methods=["GET"])
+def psnstatistik_detail(id):
+    psnstatistic = psnstatistic.query.get(id)
+    return psnstatistik_schema.jsonify(psnstatistic)
+
+
+# endpoint to update psnstatistic
+@app.route("/psnstatistic/<id>", methods=["PUT"])
+def psnstatistic_update(id):
+    psnstatistic = psnstatistic.query.get(id)    
+    firstname = request.json['firstname']
+    secondname = request.json['secondname']	
+	payedForme  = request.json['payedForme']
+	payedForyassine  = request.json['payedForyassine']
+	bill = request.json['bill']
+	codePrice  = request.json['codePrice']
+    
+    psnstatistic.firstname = firstname
+    psnstatistic.secondname = secondname
+	psnstatistic.payedForme = payedForme
+	psnstatistic.payedForyassine = payedForyassine
+	psnstatistic.bill = bill
+
+    db.session.commit()
+    return psnstatistik_schema.jsonify(psnstatistic)
+
+
+# endpoint to delete psnstatistic
+@app.route("/psnstatistic/<id>", methods=["DELETE"])
+def psnstatistic_delete(id):
+    psnstatistic = psnstatistic.query.get(id)
+    db.session.delete(psnstatistic)
+    db.session.commit()
+
+    return psnstatistik_schema.jsonify(psnstatistic)
+
+##########################################################################################################
 if __name__ == '__main__':
     db.create_all()
     db.session.commit()
