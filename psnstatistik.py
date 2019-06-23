@@ -11,13 +11,15 @@ class psnstatistik(db.Model):
     bill = db.Column(db.Integer)
     codePrice = db.Column(db.Integer)
 
-    def __init__(self, firstname,  secondname, payedForme, payedForyassine, bill, codePrice):
+    def __init__(self, firstname,  secondname, payedForme, payedForyassine, bill, codePrice,
+                 creationTime):
         self.firstname = firstname
         self.secondname = secondname
         self.payedForme = payedForme
         self.payedForyassine = payedForyassine
         self.bill = bill
         self.codePrice = codePrice
+        self.creationTime = creationTime
 
 class psnstatistikSchema(ma.Schema):
     class Meta:

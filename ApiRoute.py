@@ -1,6 +1,7 @@
 from flask import request, jsonify, send_from_directory, render_template, flash, redirect, url_for
 import os
 from Setup import  app, db
+from psnstatistik import psnstatistik, psnstatistiks_schema, psnstatistik_schema
 from user import User, users_schema, user_schema
 from todo import Todo, todos_schema,todo_schema
 import  datetime
@@ -82,6 +83,7 @@ def add_todo():
     creationDate = datetime.datetime.utcnow()
     AssignedTo = request.json['AssignedTo']
     Attachement = upload_file()
+    Username = request.json['Username']
 
     new_todo = Todo(userID, subject, description, creationDate, AssignedTo, Attachement)
 
@@ -166,21 +168,22 @@ def upload_file():
 ################################ handle the psnstatistic##################################################
 # endpoint to create new psnstatistic
 @app.route("/psnstatistik", methods=["POST"])
-def add_psnstatistik():       
+def add_psnstatistik():
     firstname = request.json['firstname']
-    secondname = request.json['secondname']	
-	payedForme  = request.json['payedForme']
-	payedForyassine  = request.json['payedForyassine']
-	bill = request.json['bill']
-	codePrice  = request.json['codePrice']
+    secondname = request.json['secondname']
+    payedForme = request.json['payedForme']
+    payedForyassine = request.json['payedForyassine']
+    creationDate = (datetime.datetime.utcnow)
+    bill = request.json['bill']
+    codePrice = request.json['codePrice']
 
-    new_psnstatistik = Todo(firstname, secondname, payedForme, payedForyassine, bill, codePrice)
+    new_psnstatistik = psnstatistik(firstname,secondname,
+                            payedForme, payedForyassine, creationDate, bill, codePrice)
 
     db.session.add(new_psnstatistik)
     db.session.commit()
-    #upload_file()
-    return jsonify(new_psnstatistik)
 
+    return jsonify(new_psnstatistik)
 
 # endpoint to show all psnstatistics
 
@@ -196,29 +199,10 @@ def abdellah(str):
 
 @app.route("/psnstatistic/<id>", methods=["GET"])
 def psnstatistik_detail(id):
-    psnstatistic = psnstatistic.query.get(id)
+    psnstatistic = psnstatistik.query.get(id)
     return psnstatistik_schema.jsonify(psnstatistic)
 
 
-# endpoint to update psnstatistic
-@app.route("/psnstatistic/<id>", methods=["PUT"])
-def psnstatistic_update(id):
-    psnstatistic = psnstatistic.query.get(id)    
-    firstname = request.json['firstname']
-    secondname = request.json['secondname']	
-	payedForme  = request.json['payedForme']
-	payedForyassine  = request.json['payedForyassine']
-	bill = request.json['bill']
-	codePrice  = request.json['codePrice']
-    
-    psnstatistic.firstname = firstname
-    psnstatistic.secondname = secondname
-	psnstatistic.payedForme = payedForme
-	psnstatistic.payedForyassine = payedForyassine
-	psnstatistic.bill = bill
-
-    db.session.commit()
-    return psnstatistik_schema.jsonify(psnstatistic)
 
 
 # endpoint to delete psnstatistic
@@ -234,5 +218,6 @@ def psnstatistic_delete(id):
 if __name__ == '__main__':
     db.create_all()
     db.session.commit()
+
     app.run(debug=True ,port = 32)
 

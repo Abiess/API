@@ -13,19 +13,23 @@ class Todo(db.Model):
     CreationTime = db.Column(db.DateTime )
     AssignedTo = db.Column(db.String)
     Attachement = db.Column(db.String)
+    Username = db.Column(db.String)
 
-    def __init__(self, User_id, Subject, Description,CreationTime , AssignedTo, Attachement):
+
+    def __init__(self, User_id, Subject, Description,CreationTime , AssignedTo, Attachement, Username):
         self.User_id = User_id
         self.Subject = Subject
         self.Description = Description
         self.CreationTime = CreationTime
         self.AssignedTo = AssignedTo
         self.Attachement = Attachement
+        self.Username = Username
+
 
 class TodoSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ('User_id', 'Subject', 'Description', 'AssignedTo', 'Attachement')
+        fields = ('User_id', 'Subject', 'Description', 'AssignedTo', 'Attachement', 'Username')
 
 
 todo_schema = TodoSchema()
