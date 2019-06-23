@@ -173,12 +173,11 @@ def add_psnstatistik():
     secondname = request.json['secondname']
     payedForme = request.json['payedForme']
     payedForyassine = request.json['payedForyassine']
-    creationDate = (datetime.datetime.utcnow)
     bill = request.json['bill']
     codePrice = request.json['codePrice']
 
     new_psnstatistik = psnstatistik(firstname,secondname,
-                            payedForme, payedForyassine, creationDate, bill, codePrice)
+                            payedForme, payedForyassine,  bill, codePrice)
 
     db.session.add(new_psnstatistik)
     db.session.commit()
@@ -208,7 +207,7 @@ def psnstatistik_detail(id):
 # endpoint to delete psnstatistic
 @app.route("/psnstatistic/<id>", methods=["DELETE"])
 def psnstatistic_delete(id):
-    psnstatistic = psnstatistic.query.get(id)
+    psnstatistic = psnstatistik.query.get(id)
     db.session.delete(psnstatistic)
     db.session.commit()
 
