@@ -182,7 +182,7 @@ def add_psnstatistik():
     db.session.add(new_psnstatistik)
     db.session.commit()
 
-    return jsonify(new_psnstatistik)
+    return psnstatistik_schema.jsonify(new_psnstatistik)
 
 # endpoint to show all psnstatistics
 
