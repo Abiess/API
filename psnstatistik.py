@@ -9,21 +9,28 @@ class psnstatistik(db.Model):
     payedForyassine = db.Column(db.String)
     bill = db.Column(db.Integer)
     codePrice = db.Column(db.Integer)
+    CreationDateTime = db.Column(db.DateTime)
 
-    def __init__(self, firstname,  secondname, payedForme, payedForyassine, bill, codePrice
+    def __init__(self, firstname,
+                 secondname, payedForme,
+                 payedForyassine, bill,
+                 codePrice, datetimecreation
                  ):
         self.firstname = firstname
         self.secondname = secondname
         self.payedForme = payedForme
         self.payedForyassine = payedForyassine
         self.bill = bill
-        self.codePrice = codePrice
+        self.codePrice = codePrice,
+        self.CreationDateTime = datetimecreation
 
 
 class psnstatistikSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ('firstname','secondname', 'payedForme', 'payedForyassine','bill', 'codePrice' )
+        fields = ('firstname','secondname', 'payedForme',
+                  'payedForyassine',
+                  'bill', 'codePrice', 'datetimecreation' )
 
 
 psnstatistik_schema = psnstatistikSchema()

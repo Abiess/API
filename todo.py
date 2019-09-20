@@ -1,10 +1,4 @@
 from Setup import db, ma
-
-
-
-
-
-
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     User_id = db.Column(db.Integer, db.ForeignKey('user.id'))
