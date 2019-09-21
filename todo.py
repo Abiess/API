@@ -23,7 +23,7 @@ class Todo(db.Model):
 class TodoSchema(ma.Schema):
     class Meta:
         # Fields to expose
-        fields = ('User_id', 'Subject', 'Description', 'AssignedTo', 'Attachement', 'Username')
+        fields = ('User_id', 'Subject', 'Description', 'AssignedTo', 'Attachement', 'Username', 'CreationTime')
 
 
 todo_schema = TodoSchema()

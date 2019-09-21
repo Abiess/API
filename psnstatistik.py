@@ -7,22 +7,22 @@ class psnstatistik(db.Model):
     secondname = db.Column(db.String)
     payedForme = db.Column(db.String)
     payedForyassine = db.Column(db.String)
-    bill = db.Column(db.Integer)
     codePrice = db.Column(db.Integer)
-    CreationDateTime = db.Column(db.DateTime)
+    bill = db.Column(db.Integer)
+
+    datetime = db.Column(db.DateTime)
 
     def __init__(self, firstname,
                  secondname, payedForme,
-                 payedForyassine, bill,
-                 codePrice, datetimecreation
+                 payedForyassine, bill, cprice,dt
                  ):
         self.firstname = firstname
         self.secondname = secondname
         self.payedForme = payedForme
         self.payedForyassine = payedForyassine
         self.bill = bill
-        self.codePrice = codePrice,
-        self.CreationDateTime = datetimecreation
+        self.codePrice = cprice
+        self.datetime = dt
 
 
 class psnstatistikSchema(ma.Schema):
@@ -30,7 +30,7 @@ class psnstatistikSchema(ma.Schema):
         # Fields to expose
         fields = ('firstname','secondname', 'payedForme',
                   'payedForyassine',
-                  'bill', 'codePrice', 'datetimecreation' )
+                  'bill', 'codePrice','datetime' )
 
 
 psnstatistik_schema = psnstatistikSchema()

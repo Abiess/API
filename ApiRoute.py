@@ -206,16 +206,14 @@ def add_psnstatistik():
     payedForme = request.json['payedForme']
     payedForyassine = request.json['payedForyassine']
     bill = request.json['bill']
-    codePrice = request.json['codePrice']
-    datetimecreation = datetime.datetime.utcnow()
+    codeprice = request.json['codePrice']
+    dt = datetime.datetime.utcnow()
 
     new_psnstatistik = psnstatistik(firstname,
                                     secondname,
                                     payedForme,
                                     payedForyassine,
-                                    bill,
-                                    codePrice,
-                                    datetimecreation)
+                                    bill,codeprice,dt)
 
     db.session.add(new_psnstatistik)
     db.session.commit()
@@ -226,7 +224,7 @@ def add_psnstatistik():
 # endpoint to show all psnstatistics
 
 @app.route("/psnstatistik", methods=["GET"])
-@auth.login_required
+#@auth.login_required
 def get_psnstatistik():
     all_psnstatistiks = psnstatistik.query.all()
     result = psnstatistiks_schema.dump(all_psnstatistiks)
