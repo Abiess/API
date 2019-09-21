@@ -211,8 +211,7 @@ def add_psnstatistik():
 
     new_psnstatistik = psnstatistik(firstname,
                                     secondname,
-                                    payedForme,
-                                    payedForyassine,
+                                    payedForme,payedForyassine,
                                     bill,codeprice,dt)
 
     db.session.add(new_psnstatistik)

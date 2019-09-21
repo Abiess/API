@@ -24,7 +24,6 @@ class psnstatistik(db.Model):
         self.codePrice = cprice
         self.datetime = dt
 
-
 class psnstatistikSchema(ma.Schema):
     class Meta:
         # Fields to expose
