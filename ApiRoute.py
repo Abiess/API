@@ -1,6 +1,11 @@
-from flask import request, jsonify, send_from_directory, render_template, abort, g, redirect, url_for, Flask
+from flask import request, jsonify, send_from_directory,\
+    render_template, abort, g, redirect, url_for,flash
 import os
-from Setup import app, db
+from flask_login import current_user, login_user, logout_user, login_required
+from Setup import app, db, login_manager
+from flask_login import LoginManager
+
+login = LoginManager(app)
 from psnstatistik import psnstatistik, psnstatistiks_schema, psnstatistik_schema
 from user import User, users_schema, user_schema
 from todo import Todo, todos_schema, todo_schema
@@ -12,10 +17,10 @@ from flask_httpauth import HTTPBasicAuth
 auth = HTTPBasicAuth()
 
 
-# endpoint to create new user
+# registation
 @app.route("/user", methods=["POST"])
-def add_user():
-    username = request.json['username']
+def register():
+    username = request.json['F']
     password = request.json['password']
     userart = request.json['userart']
     beruf = request.json['beruf']
@@ -57,7 +62,6 @@ def verify_password(username, password):
 @auth.login_required
 def get_resource():
     return jsonify({'data': 'Hello, %s!' % g.user.id})
-
 
 # endpoint to get user detail by id
 @app.route("/user/<id>", methods=["GET"])
@@ -200,6 +204,7 @@ def upload_file():
 ################################ handle the psnstatistic##################################################
 # endpoint to create new psnstatistic
 @app.route("/psnstatistik", methods=["POST"])
+@login_required
 def add_psnstatistik():
     firstname = request.json['firstname']
     secondname = request.json['secondname']
@@ -219,11 +224,30 @@ def add_psnstatistik():
 
     return psnstatistik_schema.jsonify(new_psnstatistik)
 
+@app.route('/login')
+def login():
+    firstname = request.json['username']
+    secondname = request.json['password']
+    Vp = verify_password(firstname,secondname)
+    if Vp :
+        user = User.query.filter_by(username= firstname).first()
+        login_user(user)
+        return 'the user is logged in'
+    return 'faild to login'
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return 'the user is correcty loggin out'
+
+@app.route('/home')
+def home():
+    return 'the user is login' + current_user.username
 
 # endpoint to show all psnstatistics
 
 @app.route("/psnstatistik", methods=["GET"])
-#@auth.login_required
+@auth.login_required
 def get_psnstatistik():
     all_psnstatistiks = psnstatistik.query.all()
     result = psnstatistiks_schema.dump(all_psnstatistiks)
@@ -252,9 +276,10 @@ def psnstatistic_delete(id):
     return psnstatistik_schema.jsonify(psnstatistic)
 
 
+
 ##########################################################################################################
 if __name__ == '__main__':
     db.create_all()
     db.session.commit()
 
-    app.run(debug=True, port=32)
+    app.run(debug=True, port=8000)
