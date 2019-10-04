@@ -1,5 +1,5 @@
 from Setup import db, ma
-class Pateient(db.Model):
+class Patient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     User_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     firstname = db.Column(db.String)
