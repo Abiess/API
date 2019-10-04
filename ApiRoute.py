@@ -56,6 +56,37 @@
 													logout_user()
 													return 'logout succeded'
 
+												# endpoint for Patients
+
+												# endpoint to create new Patient
+												@app.route("/patient", methods=["POST"])
+												@login_required
+												def add_patient():
+													userID = current_user.id
+													firstname  = request.json['firstname']
+													secondname = request.json['secondname']													
+													weight = request.json['weight']													
+													gender = request.json['gender']
+													illnes = request.json['illnes']
+													birthday  = request.json['birthday']
+
+
+													new_patient = Patient(userID, firstname, secondname, weight, gender, illnes, birthday)
+
+													db.session.add(new_patient)
+													db.session.commit()
+													# upload_file()
+													return jsonify(new_patient)
+													
+												# endpoint to show all patient
+
+												@app.route("/todo", methods=["GET"])
+												@login_required
+												def get_todo():
+													all_patient = Patient.query.filter_by(User_id = current_user.id)
+													result = todos_schema.dump(all_patient)
+													return jsonify(result.data)	
+													
 													
 												# endpoint to show all users
 												@app.route("/user", methods=["GET"])
