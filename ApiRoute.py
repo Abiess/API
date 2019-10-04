@@ -132,8 +132,10 @@
 													AssignedTo = request.json['AssignedTo']
 													Attachement = upload_file()
 													Username = request.json['Username']
+													TodoStatus = request.json['TodoStatus']
 
-													new_todo = Todo(userID, subject, description, creationDate, AssignedTo, Attachement)
+
+													new_todo = Todo(userID, subject, description, creationDate, AssignedTo, Attachement, TodoStatus)
 
 													db.session.add(new_todo)
 													db.session.commit()
@@ -168,7 +170,7 @@
 													UserID = request.json['User_id']
 													subject = request.json['Subject']
 													description = request.json['Description']
-
+													
 													todo.User_id = UserID
 													todo.Subject = subject
 													todo.Description = description
