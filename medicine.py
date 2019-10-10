@@ -18,11 +18,11 @@ class medicine(db.Model):
         self.amount = amount
         self.kind = kind
         self.totalamount = totalamount
-	self.patient_id = patient_id
+        self.patient_id = patient_id
      
 
 
-class PatientSchema(ma.Schema):
+class MedicineSchema(ma.Schema):
     class Meta:
         # Fields to expose
         fields = ('patient_id','name', 'deadline', 'weight', 'consumption', 'amount', 'kind','totalamount')

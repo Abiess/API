@@ -18,7 +18,7 @@ class Patient(db.Model):
         self.gender = gender
         self.illness = illness
         self.birthday = birthday
-	self.User_id = User_id
+        self.User_id = User_id
      
 
 
