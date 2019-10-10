@@ -260,7 +260,7 @@ def upload_file():
 ################################ handle the psnstatistic##################################################
 # endpoint to create new psnstatistic
 @app.route("/psnstatistik", methods=["POST"])
-@login_required
+
 def add_psnstatistik():
     firstname = request.json['firstname']
     secondname = request.json['secondname']
