@@ -157,31 +157,31 @@ def user_delete(id):
 
 # endpoint to create new Todo
 @app.route("/todo", methods=["POST"])
-@login_required
+#@login_required
 def add_todo():
-    userID = current_user.id
-    subject = request.json['Subject']
+    userID = request.json['User_id']
+    Subject = request.json['Subject']
     description = request.json['Description']
     creationDate = datetime.datetime.utcnow()
     AssignedTo = request.json['AssignedTo']
-    Attachement = upload_file()
+   # Attachement = upload_file()
     Username = request.json['Username']
     TodoStatus = request.json['TodoStatus']
 
-    new_todo = Todo(userID, subject, description, creationDate, AssignedTo, Attachement, TodoStatus)
+    new_todo = Todo(userID, Subject, description,creationDate, AssignedTo,  Username, TodoStatus)
 
     db.session.add(new_todo)
     db.session.commit()
     # upload_file()
-    return jsonify(new_todo)
+    return todo_schema.jsonify(new_todo)
 
 
 # endpoint to show all todos
 
 @app.route("/todo", methods=["GET"])
-@login_required
+#@login_required
 def get_todo():
-    all_todos = Todo.query.filter_by(User_id=current_user.id)
+    all_todos = Todo.query.all()
     result = todos_schema.dump(all_todos)
     return jsonify(result.data)
 
