@@ -92,7 +92,7 @@ def get_patient():
 
 # endpoint to show all users
 @app.route("/user", methods=["GET"])
-@login_required
+#@login_required
 def get_user():
     all_users = User.query.all()
     result = users_schema.dump(all_users)
@@ -167,8 +167,10 @@ def add_todo():
    # Attachement = upload_file()
     Username = request.json['Username']
     TodoStatus = request.json['TodoStatus']
-
-    new_todo = Todo(userID, Subject, description,creationDate, AssignedTo,  Username, TodoStatus)
+    DeadLine = request.json['DeadLine']
+    TodoCategory = request.json['TodoCategory']
+    new_todo = Todo(userID, Subject, description,
+                    creationDate, AssignedTo,  Username, TodoStatus, DeadLine, TodoCategory)
 
     db.session.add(new_todo)
     db.session.commit()
@@ -189,7 +191,7 @@ def get_todo():
 # endpoint to get todo detail by id
 
 @app.route("/todo/<id>", methods=["GET"])
-@login_required
+#@login_required
 def todo_detail(id):
     todo = Todo.query.get(id)
     return todo_schema.jsonify(todo)
@@ -197,7 +199,7 @@ def todo_detail(id):
 
 # endpoint to update todo
 @app.route("/todo/<id>", methods=["PUT"])
-@login_required
+#@login_required
 def todo_update(id):
     todo = Todo.query.get(id)
     UserID = request.json['User_id']
@@ -214,7 +216,7 @@ def todo_update(id):
 
 # endpoint to delete todo
 @app.route("/todo/<id>", methods=["DELETE"])
-@login_required
+#@login_required
 def todo_delete(id):
     todo = Todo.query.get(id)
     db.session.delete(todo)
@@ -226,7 +228,7 @@ def todo_delete(id):
 ##################################Upload send Files#########################
 
 @app.route('/templates/path:path')
-@login_required
+#@login_required
 def send_html(path):
     return send_from_directory('static', path)
 
@@ -289,7 +291,7 @@ def home():
 # endpoint to show all psnstatistics
 
 @app.route("/psnstatistik", methods=["GET"])
-@auth.login_required
+#@auth.login_required
 def get_psnstatistik():
     all_psnstatistiks = psnstatistik.query.all()
     result = psnstatistiks_schema.dump(all_psnstatistiks)
